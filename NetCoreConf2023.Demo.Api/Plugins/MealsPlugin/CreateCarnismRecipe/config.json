@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "description": "A Nutrition Coach with expertise in meats and an animal-based lifestyle who creates a animal-based recipes for any course dish.",
+  "models": [
+    {
+      "max_tokens": 2000,
+      "temperature": 0.7,
+      "top_p": 0.0,
+      "presence_penalty": 0.0,
+      "frequency_penalty": 0.0,
+      "stop_sequences": [
+        "[done]"
+      ]
+    }
+  ],
+  "input": {
+    "parameters": [
+      {
+        "name": "course",
+        "description": "The course of the meat or animal-based dish you want the recipe to prepare. For example: Starter, Main, or Dessert.",
+        "defaultValue": ""
+      }
+    ]
+  }
+}

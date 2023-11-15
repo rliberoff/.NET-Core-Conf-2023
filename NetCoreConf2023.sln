@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreConf2023.Demo.Api", "NetCoreConf2023.Demo.Api\NetCoreConf2023.Demo.Api.csproj", "{CA00E70C-1E7F-448F-A1E5-46D3F9192EFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "[Solution Items]", "[Solution Items]", "{2E05DCE6-3069-4406-B558-927035BAF9A4}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		global.json = global.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA00E70C-1E7F-448F-A1E5-46D3F9192EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA00E70C-1E7F-448F-A1E5-46D3F9192EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA00E70C-1E7F-448F-A1E5-46D3F9192EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA00E70C-1E7F-448F-A1E5-46D3F9192EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {972D0BCA-B281-45D7-88C6-4C2BBEAA9DDC}
+	EndGlobalSection
+EndGlobal
