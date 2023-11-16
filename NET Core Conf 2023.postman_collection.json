@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "917a01cc-d5c2-4704-b11d-36d070ac42f2",
+		"name": "NET Core Conf 2023",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24498958",
+		"_collection_link": "https://planetary-meadow-26954.postman.co/workspace/Events~2b48f7e8-60ed-4c9f-9890-ab208e56b68d/collection/24498958-917a01cc-d5c2-4704-b11d-36d070ac42f2?action=share&source=collection_link&creator=24498958"
+	},
+	"item": [
+		{
+			"name": "Demo «ActionPlanner»",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"goal\": \"Give me a vegan dessert recipe\"\r\n    //\"goal\": \"Send an e-mail to rliberoff@netcoreconf-2023-madrid.com saying \\\"Hello\\\" in the body of the e-mail.\"\r\n    //\"goal\": \"Give me a vegan dessert recipe and sent it to rliberoff@netcoreconf-2023.com by e-mail.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v{{version}}/demo/planner/action",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"demo",
+						"planner",
+						"action"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Demo «SequentialPlanner»",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    //\"goal\": \"Give me a vegan dessert recipe and then send it by e-mail to rliberoff@netcoreconf-2023-madrid.com.\"\r\n    \"goal\": \"Create for me recipes for a vegan starter and a vegan main, then send each recipe by e-mail to rliberoff@netcoreconf-2023-madrid.com.\"\r\n    //\"goal\": \"Create for me a meat-based starter, a vegan main and finally a animal-based dessert, then translate each recipe to Spanish and send them by e-mail to rliberoff@netcoreconf-2023-madrid.com.\"\r\n    //\"goal\": \"Crea para mí un entrante a base de carne, un plato principal vegano y finalmente un postre de origen animal, luego envíalas por correo electrónico a rliberoff@netcoreconf-2023-madrid.com.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v{{version}}/demo/planner/sequential",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"demo",
+						"planner",
+						"sequential"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Demo «StepwisePlanner»",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"goal\": \"If eggs are vegan create an starter with eggs, otherwise just answer me with \\\"Not Possible\\\"\"\r\n    //\"goal\": \"If eggplants are vegan create a dessert with eggplants, otherwise just answer me with \\\"Not Possible\\\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v{{version}}/demo/planner/stepwise",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"demo",
+						"planner",
+						"stepwise"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Demo «CustomPlanner»",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v{{version}}/demo/planner/stepwise",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v{{version}}",
+						"demo",
+						"planner",
+						"stepwise"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:7001",
+			"type": "string"
+		},
+		{
+			"key": "version",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
