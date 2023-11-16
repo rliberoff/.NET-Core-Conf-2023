@@ -30,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Plugins\MarkupPlugin\ToMarkdown\skprompt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Plugins\MealsPlugin\CreateCarnismRecipe\skprompt.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

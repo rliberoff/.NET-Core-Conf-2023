@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "description": "Formats an input text as Markdown.",
+  "models": [
+    {
+      "max_tokens": 2000,
+      "temperature": 0.7,
+      "top_p": 0.0,
+      "presence_penalty": 0.0,
+      "frequency_penalty": 0.0,
+      "stop_sequences": [
+        "[done]"
+      ]
+    }
+  ],
+  "input": {
+    "parameters": [
+      {
+        "name": "input",
+        "description": "The text to format as Markdown.",
+        "defaultValue": ""
+      }
+    ]
+  }
+}
