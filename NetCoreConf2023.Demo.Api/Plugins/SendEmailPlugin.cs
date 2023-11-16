@@ -22,24 +22,20 @@ internal sealed class SendEmailPlugin
 
     [SKFunction]
     [Description("Given an e-mail address and message body, sends an email.")]
-    public async Task<string> SendEmailAsync([Description("The body of the e-mail message to send.")] string body,
+    public async Task<string> SendEmailAsync([Description("The body of the e-mail message to send.")] string input,
                                              [Description("The e-mail address to send the e-mail to.")] string address,
                                              CancellationToken cancellationToken)
     {
         using var mailMessage = new MimeMessage();
-        mailMessage.Subject = @"An e-mail from Netcoreconf 2023 - Madrid!";
+        mailMessage.Subject = @"An e-mail from netcoreconf 2023 - Madrid!";
         mailMessage.Body = new BodyBuilder()
         {
-            TextBody = body,
+            TextBody = input,
         }.ToMessageBody();
         mailMessage.To.Add(new MailboxAddress(address, address));
+        mailMessage.From.Add(new MailboxAddress(smtpClientOptions.SenderAddress, smtpClientOptions.SenderAddress));
 
         using var smtpClient = new SmtpClient();
-
-        if (smtpClientOptions.ServerCertificateValidationCallback != null)
-        {
-            smtpClient.ServerCertificateValidationCallback += smtpClientOptions.ServerCertificateValidationCallback;
-        }
 
         await smtpClient.ConnectAsync(smtpClientOptions.Host, smtpClientOptions.Port, smtpClientOptions.UseSSL, cancellationToken);
         await smtpClient.AuthenticateAsync(smtpClientOptions.User, smtpClientOptions.Password, cancellationToken);

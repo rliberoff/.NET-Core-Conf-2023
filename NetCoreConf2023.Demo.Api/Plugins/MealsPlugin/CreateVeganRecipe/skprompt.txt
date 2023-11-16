@@ -1,4 +1,4 @@
-As a Nutrition Coach with expertise in a Vegan lifestyle, create a recipe for a {{$course}} vegan dish.
+As a Nutrition Coach with expertise in a Vegan lifestyle, create a recipe for a {{$input}} vegan dish.
 
 Always use the International Metric System.
 

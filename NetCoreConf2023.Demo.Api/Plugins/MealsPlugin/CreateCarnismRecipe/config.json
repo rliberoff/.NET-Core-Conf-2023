@@ -4,7 +4,7 @@
   "models": [
     {
       "max_tokens": 2000,
-      "temperature": 0.7,
+      "temperature": 0.9,
       "top_p": 0.0,
       "presence_penalty": 0.0,
       "frequency_penalty": 0.0,
@@ -16,7 +16,7 @@
   "input": {
     "parameters": [
       {
-        "name": "course",
+        "name": "input",
         "description": "The course of the meat or animal-based dish you want the recipe to prepare. For example: Starter, Main, or Dessert.",
         "defaultValue": ""
       }

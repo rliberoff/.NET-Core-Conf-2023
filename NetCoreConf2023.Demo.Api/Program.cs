@@ -55,9 +55,11 @@ if (isDevelopment)
 
 /* Load Options */
 
-builder.Services.AddOptions<SmtpClientOptions>().ValidateDataAnnotations().ValidateOnStart();
-builder.Services.AddOptions<SemanticKernelOptions>().ValidateDataAnnotations().ValidateOnStart();
-builder.Services.AddOptions<VersionSwaggerGenOptions>().ValidateDataAnnotations().ValidateOnStart();
+builder.Services.AddOptions<SmtpClientOptions>().Bind(builder.Configuration.GetSection(nameof(SmtpClientOptions))).ValidateDataAnnotations().ValidateOnStart();
+builder.Services.AddOptions<SemanticKernelOptions>().Bind(builder.Configuration.GetSection(nameof(SemanticKernelOptions))).ValidateDataAnnotations().ValidateOnStart();
+builder.Services.AddOptions<VersionSwaggerGenOptions>().Bind(builder.Configuration.GetSection(nameof(VersionSwaggerGenOptions))).ValidateDataAnnotations().ValidateOnStart();
+
+/* Logging Configuration */
 
 var applicationInsightsConnectionString = builder.Configuration.GetConnectionString(@"ApplicationInsights");
 
@@ -66,14 +68,14 @@ if (!string.IsNullOrWhiteSpace(applicationInsightsConnectionString))
     builder.Logging.AddApplicationInsights((telemetryConfiguration) => telemetryConfiguration.ConnectionString = applicationInsightsConnectionString, (_) => { });
 }
 
-// Add application services...
+/* Application Services */
+
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration)
                 .AddHttpContextAccessor()
                 .AddRouting()
                 .AddApiVersioning(options =>
                 {
                     options.AssumeDefaultVersionWhenUnspecified = true;
-                    options.DefaultApiVersion = ApiVersion.Neutral;
                     options.ReportApiVersions = true;
                     options.ApiVersionReader = ApiVersionReader.Combine(
                         new QueryStringApiVersionReader(Constants.Versioning.QueryStringVersion),
@@ -86,7 +88,6 @@ builder.Services.AddApplicationInsightsTelemetry(builder.Configuration)
                 .AddApiExplorer(options =>
                 {
                     options.AssumeDefaultVersionWhenUnspecified = true;
-                    options.DefaultApiVersion = ApiVersion.Neutral;
                     options.GroupNameFormat = @"'v'V";
                 })
                 ;
@@ -121,7 +122,7 @@ builder.Services.AddScoped(sp =>
 
     var kernel = new KernelBuilder()
         .WithLoggerFactory(sp.GetRequiredService<ILoggerFactory>())
-        .WithAzureOpenAIChatCompletionService(options.ChatModelDeploymentName, options.Endpoint.AbsolutePath, options.Key, alsoAsTextCompletion: true)
+        .WithAzureOpenAIChatCompletionService(options.ChatModelDeploymentName, options.Endpoint.AbsoluteUri, options.Key, alsoAsTextCompletion: true)
         .WithAzureOpenAITextEmbeddingGenerationService(options.EmbeddingsModelDeploymentName, options.Endpoint.AbsoluteUri, options.Key)
         .Build();
 
@@ -134,21 +135,20 @@ var app = builder.Build();
 
 if (isDevelopment)
 {
-    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+    app.UseDeveloperExceptionPage()
+       .UseSwagger()
+       .UseSwaggerUI(options =>
+       {
+           var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
-    app
-        .UseDeveloperExceptionPage()
-        .UseSwagger()
-        .UseSwaggerUI(options =>
-        {
-            foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
-            {
-                options.SwaggerEndpoint($@"/swagger/{description.GroupName}/swagger.json", description.ApiVersion == ApiVersion.Neutral ? @"Default" : description.GroupName.ToUpperInvariant());
-            }
+           foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+           {
+               options.SwaggerEndpoint($@"/swagger/{description.GroupName}/swagger.json", description.ApiVersion == ApiVersion.Default ? @"Default" : description.GroupName.ToUpperInvariant());
+           }
 
-            options.RoutePrefix = @"swagger";
-        })
-        ;
+           options.RoutePrefix = @"swagger";
+       })
+       ;
 }
 
 app.UseDefaultFiles()
