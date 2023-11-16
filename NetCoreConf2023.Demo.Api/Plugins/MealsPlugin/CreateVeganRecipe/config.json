@@ -19,6 +19,11 @@
         "name": "input",
         "description": "The course of the vegan dish you want the recipe to prepare. For example: Starter, Main, or Dessert.",
         "defaultValue": ""
+      },
+      {
+        "name": "mainIngredient",
+        "description": "The main ingredient to use in the recipe to prepare.",
+        "defaultValue": "[No main ingredient]"
       }
     ]
   }

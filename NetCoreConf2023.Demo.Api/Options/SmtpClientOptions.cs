@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Net.Security;
 
 namespace NetCoreConf2023.Demo.Api.Options;
 
-public class SmtpClientOptions
+public sealed class SmtpClientOptions
 {
     /// <summary>
     /// Gets the host name of the SMTP service.

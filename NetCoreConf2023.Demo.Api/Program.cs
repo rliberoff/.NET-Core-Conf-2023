@@ -6,9 +6,17 @@ using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using Asp.Versioning.Conventions;
 
+using Google.Apis.Logging;
+
+using HandlebarsDotNet;
+
 using Microsoft.Extensions.Options;
 
 using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Connectors.AI.OpenAI;
+using Microsoft.SemanticKernel.Connectors.AI.OpenAI.TextEmbedding;
+using Microsoft.SemanticKernel.Memory;
+using Microsoft.SemanticKernel.Plugins.Memory;
 
 using NetCoreConf2023.Demo.Api;
 using NetCoreConf2023.Demo.Api.Infrastructure;
@@ -55,6 +63,7 @@ if (isDevelopment)
 
 /* Load Options */
 
+builder.Services.AddOptions<BingOptions>().Bind(builder.Configuration.GetSection(nameof(BingOptions))).ValidateDataAnnotations().ValidateOnStart();
 builder.Services.AddOptions<SmtpClientOptions>().Bind(builder.Configuration.GetSection(nameof(SmtpClientOptions))).ValidateDataAnnotations().ValidateOnStart();
 builder.Services.AddOptions<SemanticKernelOptions>().Bind(builder.Configuration.GetSection(nameof(SemanticKernelOptions))).ValidateDataAnnotations().ValidateOnStart();
 builder.Services.AddOptions<VersionSwaggerGenOptions>().Bind(builder.Configuration.GetSection(nameof(VersionSwaggerGenOptions))).ValidateDataAnnotations().ValidateOnStart();
@@ -116,6 +125,21 @@ builder.Services.AddProblemDetails()
 
 /* Semantic Kernel Configuration */
 
+builder.Services.AddSingleton<IMemoryStore, VolatileMemoryStore>();
+
+builder.Services.AddSingleton(sp =>
+{
+    var options = sp.GetRequiredService<IOptions<SemanticKernelOptions>>().Value;
+
+    var memory = new MemoryBuilder()
+            .WithLoggerFactory(sp.GetRequiredService<ILoggerFactory>())
+            .WithMemoryStore(sp.GetRequiredService<IMemoryStore>())
+            .WithAzureOpenAITextEmbeddingGenerationService(options.EmbeddingsModelDeploymentName, options.Endpoint.AbsoluteUri, options.Key)
+            .Build();
+
+    return memory;
+});
+
 builder.Services.AddScoped(sp =>
 {
     var options = sp.GetRequiredService<IOptions<SemanticKernelOptions>>().Value;
@@ -123,7 +147,6 @@ builder.Services.AddScoped(sp =>
     var kernel = new KernelBuilder()
         .WithLoggerFactory(sp.GetRequiredService<ILoggerFactory>())
         .WithAzureOpenAIChatCompletionService(options.ChatModelDeploymentName, options.Endpoint.AbsoluteUri, options.Key, alsoAsTextCompletion: true)
-        .WithAzureOpenAITextEmbeddingGenerationService(options.EmbeddingsModelDeploymentName, options.Endpoint.AbsoluteUri, options.Key)
         .Build();
 
     return kernel;
